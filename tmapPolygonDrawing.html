@@ -1,0 +1,73 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>simpleMap</title>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx94c3c4efd6574beb8d43345df9202226"></script>
+        <script type="text/javascript">
+            var map, marker_s, marker_e, marker_p;
+            var drawInfoArr = [];
+            var resultMarkerArr = [];
+            var resultdrawArr = [];
+            function initTmap() {
+        
+                // 1. 지도 띄우기
+                map = new Tmapv2.Map("map_div", {
+                    center : new Tmapv2.LatLng(37.570028, 126.986072),
+                    width : "100%",
+                    height : "400px",
+                    zoomControl : true,
+                    scrollwheel : true
+                });
+        
+            }
+            let drawingObject = null;
+            function getDrawingObject() {
+                if (drawingObject == null) {
+                    // 도형을 그리는 객체 생성
+                    drawingObject = new Tmapv2.extension.Drawing(
+                        {
+                            map:map, // 지도 객체
+                            strokeWeight: 4, // 테두리 두께
+                            strokeColor:"blue", // 테두리 색상
+                            strokeOpacity:1, // 테두리 투명도
+                            fillColor:"red", // 도형 내부 색상
+                            fillOpacity:0.2 // 도형 내부 투명도
+                        }
+                    );
+                }
+                // 객체 반환
+                return drawingObject;
+            }
+            function drawPolygon() {
+                // 도형 객체의 폴리곤을 그리는 함수
+                getDrawingObject().drawPolygon();
+            }
+            
+            function clearDrawing() {
+                // 도형 객체의 도형을 삭제하는 함수
+                getDrawingObject().clear();
+            }
+            function loadPolygon() {
+                var polygon = new Tmapv2.Polygon({
+				paths: [
+					new Tmapv2.LatLng(37.566610,126.985666),
+					new Tmapv2.LatLng(37.566595,126.985985),
+					new Tmapv2.LatLng(37.566512,126.986071),
+					new Tmapv2.LatLng(37.566397,126.985894),
+					new Tmapv2.LatLng(37.566395,126.985664)
+				],
+				fillColor:"pink", // 다각형 내부 색상
+				map: map // 지도 객체
+			});
+
+            }
+        </script>
+        </head>
+        <body onload="initTmap();">
+            <div id="map_div"></div>
+            <button onClick="drawPolygon()">폴리곤 그리기</button>
+            <button onClick="clearDrawing()"><b>폴리곤 삭제하기</b></button>
+            <button onClick="loadPolygon()">폴리곤 불러오기</button>
+        </body>
+</html>	
