@@ -1,0 +1,128 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>simpleMap</title>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx94c3c4efd6574beb8d43345df9202226"></script>
+        <script type="text/javascript">
+			window.onkeydown = (e) => {
+				if(e.key == "a") {
+					addVertex();
+				}
+			}
+            var map, marker_s, marker_e, marker_p;
+            var drawInfoArr = [];
+            var resultMarkerArr = [];
+            var resultdrawArr = [];
+			var polygon ;
+			var latLngArr = new Array();
+            function initTmap() {
+        
+                // 1. 지도 띄우기
+                map = new Tmapv2.Map("map_div", {
+                    center : new Tmapv2.LatLng(37.566481622437934,126.98502302169841),
+                    width : "100%",
+                    height : "400px",
+                    zoomControl : true,
+					zoom : 13,
+                    scrollwheel : true
+                });
+				map.addListener("click", onClick); // 이벤트의 종류와 해당 이벤트 발생 시 실행할 함수를 리스너를 통해 등록합니다
+
+				map.MousePosition(true);
+			}	
+            let drawingObject = null;
+            function getDrawingObject() {
+                if (drawingObject == null) {
+                    // 도형을 그리는 객체 생성
+                    drawingObject = new Tmapv2.extension.Drawing(
+                        {
+                            map:map, // 지도 객체
+                            strokeWeight: 4, // 테두리 두께
+                            strokeColor:"blue", // 테두리 색상
+                            strokeOpacity:1, // 테두리 투명도
+                            fillColor:"red", // 도형 내부 색상
+                            fillOpacity:0.2 // 도형 내부 투명도
+                        }
+                    );
+                }
+                // 객체 반환
+                return drawingObject;
+            }
+            function drawPolygon() {
+                // 도형 객체의 폴리곤을 그리는 함수
+                getDrawingObject().drawPolygon();
+            }
+            
+            function clearDrawing() {
+                // 도형 객체의 도형을 삭제하는 함수
+                getDrawingObject().clear();
+            }
+            function updatePolygon() {
+				clearDrawing();
+				
+                polygon = new Tmapv2.Polygon({
+				/*
+				paths: [
+					new Tmapv2.LatLng(37.566610,126.985666),
+					new Tmapv2.LatLng(37.566595,126.985985),
+					new Tmapv2.LatLng(37.566512,126.986071),
+					new Tmapv2.LatLng(37.566397,126.985894),
+					new Tmapv2.LatLng(37.566395,126.985664)
+				],
+				*/
+				paths: latLngArr,
+				fillColor:"pink", // 다각형 내부 색상
+				map: map // 지도 객체
+				
+			});
+				polygon.startEdit();
+				//resultPolygon.innerHTML = polygon.getPath().path;
+				getArrVal();
+            }
+			function addVertex() {
+				console.log(polygon.getPath());
+                //alert(getDrawingObject().getPath());
+				//console.log(getDrawingObject());
+				latLngArr = polygon.getPath().path;
+				latLngArr.push(latLngArr[latLngArr.length - 1]);
+				polygon.setPath(latLngArr);
+				
+				//resultPolygon.innerHTML = latLngArr;
+				getArrVal();
+            }
+			
+			// 지도를 클릭했을때 발생하는 이벤트 함수입니다.
+			function onClick(e) {
+				if(getDrawingObject().isFinish()) {
+					return false;
+				}
+				
+				var result = '클릭한 위치의 좌표는' + e.latLng + '입니다.';
+				var resultDiv = document.getElementById("result");
+				resultDiv.innerHTML = result;
+				
+				latLngArr.push(e.latLng);
+				
+			}
+			
+			// 지도를 클릭했을때 발생하는 이벤트 함수입니다.
+			function getArrVal() {
+				resultPolygon.innerHTML = "";
+				latLngArr.forEach(function(element, index, array){
+					resultPolygon.innerHTML += `${index}번째 요소 : ${element}\n`;
+				});
+			}
+
+        </script>
+        </head>
+        <body onload="initTmap();">
+            <div id="map_div"></div>
+            <button onClick="drawPolygon()">폴리곤 그리기</button>
+            <!--<button onClick="clearDrawing()"><b>폴리곤 삭제하기</b></button>-->
+            <button onClick="updatePolygon()">폴리곤 수정하기</button>
+			<button onClick="addVertex()">꼭짓점 추가하기 (A button)</button>
+			<p id="result" />
+			<pre id="resultPolygon" />
+        </body>
+</html>	
