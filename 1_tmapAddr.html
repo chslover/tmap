@@ -45,8 +45,13 @@
 			onError:onError             //데이터 로드가 실패했을때 실행하는 함수 입니다.
 		};
 		
+		var city_do = $("#city_do").val();
+		var gu_gun = $("#gu_gun").val();
+		var dong = $("#dong").val();
+		var bunji = $("#bunji").val();
+		
 		// TData 객체의 지오코딩 함수
-		tData.getGeoFromAddressJson("서울","마포","상암","1623", optionObj, params);
+		tData.getGeoFromAddressJson(city_do, gu_gun, dong, bunji, optionObj, params);
 	}
 	
 	//지오코딩
@@ -62,6 +67,8 @@
 
 		marker.setMap(map);
 		map.setCenter(new Tmapv2.LatLng(lat, lon));
+		
+		result.innerHTML = lat + ", " + lon;
 	}
 	
 	//데이터 로드중 실행하는 함수입니다.
@@ -121,10 +128,15 @@
 <body onload="initTmap()"><!-- 맵 생성 실행 -->
 	<div id="map_div">
 	</div>
-	<button onClick="loadGetAddressFromLonLat()">지오코딩 실행</button>
+	시<input type="text"  id="city_do"></input>
+	군구<input type="text" id="gu_gun"></input>
+	동<input type="text"  id="dong"></input>
+	번지<input type="text" id="bunji"></input>
+	<button onClick="loadGetAddressFromLonLat()">좌표 찾기</button>
 	<div id="map_div2">
 	</div>
-	<button onClick="loadGetLonLatFromAddress()">리버스지오코딩 실행</button>
+	<p id="result" />
+	<button onClick="loadGetLonLatFromAddress()">좌표로 정제주소 찾기</button>
 </body>
 </html>
 
