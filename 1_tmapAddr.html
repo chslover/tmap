@@ -112,6 +112,8 @@
     
 		marker.setMap(map2);
 		map2.setCenter(new Tmapv2.LatLng(lat, lon));
+		
+		resultAddr.innerHTML = "  " + this._responseData.addressInfo.fullAddress;
 	}
 	
 	//데이터 로드중 실행하는 함수입니다.
@@ -137,6 +139,7 @@
 	</div>
 	<button onClick="loadGetLonLatFromAddress()">좌표로 정제주소 찾기</button>
 	<p id="result" />
+	<p id="resultAddr" />
 </body>
 </html>
 
