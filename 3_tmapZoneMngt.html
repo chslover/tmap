@@ -22,7 +22,7 @@
                 map = new Tmapv2.Map("map_div", {
                     center : new Tmapv2.LatLng(37.566481622437934,126.98502302169841),
                     width : "100%",
-                    height : "400px",
+                    height : "800px",
                     zoomControl : true,
 					zoom : 13,
                     scrollwheel : true
@@ -81,13 +81,13 @@
 				getArrVal();
             }
 			function addVertex() {
-				console.log(polygon.getPath());
+				console.log("꼭짓점 추가 전: " + polygon.getPath().path);
                 //alert(getDrawingObject().getPath());
 				//console.log(getDrawingObject());
 				latLngArr = polygon.getPath().path;
 				latLngArr.push(latLngArr[latLngArr.length - 1]);
-				polygon.setPath(latLngArr);
-				
+				//polygon.setPath(latLngArr);
+				console.log("꼭짓점 추가 배열: " + latLngArr);
 				//resultPolygon.innerHTML = latLngArr;
 				getArrVal();
             }
