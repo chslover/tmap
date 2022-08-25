@@ -34,11 +34,11 @@
 		var jsonLocation = './delivery_220503.json';
 		
 		$.getJSON(jsonLocation, function(data){
-			$each(data, function(I, item){
+			$.each(data, function(I, item){
 					console.log(item.CONT_ADDR);
 					var marker = new Tmapv2.Marker({
 						 position: new Tmapv2.LatLng(item.lat, item.lon)
-						//,label: 'test' //Marker의 라벨.
+						,label: item.blemName //Marker의 라벨.
 					});
 					
 					marker.setMap(map); //Marker가 표시될 Map 설정.
