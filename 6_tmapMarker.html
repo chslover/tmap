@@ -33,14 +33,14 @@
 	// 테크사별 마커
 	function addMarkersTooMuchByBlco() {
 		removeMarkers();
-		let beforeBLEM_CODE = "";
+		let beforeBlcoCode = "";
 		let j = 0;
 		var jsonLocation = './delivery_220503.json';
 		
 		$.getJSON(jsonLocation, function(data){
 			$.each(data, function(I, item){
-					if(beforeBLEM_CODE != item.BLEM_CODE) { 
-						beforeBLEM_CODE = item.BLEM_CODE
+					if(beforeBlcoCode != item.blcoCode) { 
+						beforeBlcoCode = item.blcoCode
 						j++;
 					}
 					//console.log(item.CONT_ADDR);
@@ -65,31 +65,27 @@
 	// 기사별 마커 
 	function addMarkersTooMuchByBlem() {
 		removeMarkers();
-		
+		let beforeBLEM_CODE = "";
+		let j = 0;
 		var jsonLocation = './delivery_220503.json';
 		
 		$.getJSON(jsonLocation, function(data){
 			$.each(data, function(I, item){
-					// 테크사보기 경우 - 테크사명이 이전과 같으면 마커유지, 다르면 마커+1
-					
-					// 기사보기일 경우 - 기사명이 이전과 같으면 마커유지, 다르면 마커+1
-					console.log(item.CONT_ADDR);
+					if(beforeBLEM_CODE != item.BLEM_CODE) { 
+						beforeBLEM_CODE = item.BLEM_CODE
+						j++;
+					}
+					//console.log(item.CONT_ADDR);
 					var marker = new Tmapv2.Marker({
 						 position : new Tmapv2.LatLng(item.lat, item.lon)
-						,icon : "./images/2.png"
+						//,label: item.blemName //Marker의 라벨.
+						,icon : "./images/"+ j + ".png"
 					});
 					
 					marker.setMap(map); //Marker가 표시될 Map 설정.
 					markers.push(marker);
 				});
 		});
-		/*
-		// 마커클러스터 등록
-		markerCluster = new Tmapv2.extension.MarkerCluster({
-			markers: markers, // 마커들이 담긴 배열
-			map: map // 지도 객체
-		});
-		*/
     }
 	
 	// 모든 마커를 제거하는 함수입니다.
