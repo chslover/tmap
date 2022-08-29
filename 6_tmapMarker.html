@@ -40,13 +40,14 @@
 			$.each(data, function(I, item){
 					console.log(item.CONT_ADDR);
 					var marker = new Tmapv2.Marker({
-						 position: new Tmapv2.LatLng(item.lat, item.lon)
+						 position : new Tmapv2.LatLng(item.lat, item.lon)
 						//,label: item.blemName //Marker의 라벨.
-						,icon: "./images/1.png"
+						,icon : "./images/1.png"
+						,map : map
 					});
 					
-					marker.setMap(map); //Marker가 표시될 Map 설정.
-					//markers.push(marker);
+					//marker.setMap(map); //Marker가 표시될 Map 설정.
+					markers.push(marker);
 				});
 		});
 		
