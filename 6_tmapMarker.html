@@ -103,23 +103,25 @@
 		markers = [];
 	}
 	
-	$("#btnBlco").click(function(){
-		addMarkersTooMuchByBlco(deliveryJson);
-	});
-	
-	$("#btnBlem").click(function(){
-		addMarkersTooMuchByBlem();
-	});
+	$(function() {
+		$("#btnBlco").click(function(){
+			addMarkersTooMuchByBlco(deliveryJson);
+		});
+		
+		$("#btnBlem").click(function(){
+			addMarkersTooMuchByBlem();
+		});
 
-	$("#blcoFilter").keydown(function(key){
-		let data = $.grep(deliveryJson, function(n, i){
-						return n.blcoName == $("#blcoFilter").val();
-					});
-					
-		if(key.keyCode == 13) {
-			addMarkersTooMuchByBlco(data);
-		}
-	});
+		$("#blcoFilter").keydown(function(key){
+			let data = $.grep(deliveryJson, function(n, i){
+							return n.blcoName == $("#blcoFilter").val();
+						});
+						
+			if(key.keyCode == 13) {
+				addMarkersTooMuchByBlco(data);
+			}
+		});
+	});	
 	
 </script>
 </head>
