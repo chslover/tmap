@@ -46,7 +46,7 @@
 					});
 					
 					marker.setMap(map); //Marker가 표시될 Map 설정.
-					markers.push(marker);
+					//markers.push(marker);
 				});
 		});
 		
@@ -76,6 +76,12 @@
 					marker.setMap(map); //Marker가 표시될 Map 설정.
 					markers.push(marker);
 				});
+		});
+		
+		// 마커클러스터 등록
+		markerCluster = new Tmapv2.extension.MarkerCluster({
+			markers: markers, // 마커들이 담긴 배열
+			map: map // 지도 객체
 		});
     }
 	
