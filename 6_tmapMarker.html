@@ -47,7 +47,7 @@
 					var marker = new Tmapv2.Marker({
 						 position : new Tmapv2.LatLng(item.lat, item.lon)
 						//,label: item.blemName //Marker의 라벨.
-						,icon : "./images/"+ j + ".png"
+						,icon : "./images/marker_"+ j + ".png"
 					});
 					
 					marker.setMap(map); //Marker가 표시될 Map 설정.
@@ -79,7 +79,7 @@
 					var marker = new Tmapv2.Marker({
 						 position : new Tmapv2.LatLng(item.lat, item.lon)
 						//,label: item.blemName //Marker의 라벨.
-						,icon : "./images/"+ j + ".png"
+						,icon : "./images/marker_"+ j + ".png"
 					});
 					
 					marker.setMap(map); //Marker가 표시될 Map 설정.
@@ -95,6 +95,15 @@
 		}
 		markers = [];
 	}
+	
+	$("btnBlco").click(function(){
+		addMarkersTooMuchByBlco();
+	});
+	
+	$("btnBlem").click(function(){
+		addMarkersTooMuchByBlem();
+	});
+	
 </script>
 </head>
 <body onload="initTmap()"><!-- 맵 생성 실행 -->
