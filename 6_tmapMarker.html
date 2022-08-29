@@ -11,6 +11,7 @@
 	
 	// 마커들을 저장할 배열입니다.
 	var markers = [];
+	let deliveryJson;
 	
 	// 페이지가 로딩이 된 후 호출하는 함수입니다.
 	function initTmap(){
@@ -22,38 +23,44 @@
 			width: "100%", // map의 width 설정
 			height: "800px" // map의 height 설정
 		});
+		initJsonData();
+		
 		// 지도 객체 생성 후 마커를 등록하는 함수를 수행합니다.
-		addMarkersTooMuchByBlco();
+		addMarkersTooMuchByBlco(deliveryJson);
 		
 		
 	}
 	
-	
+	function initJsonData(){
+		let jsonLocation = './deliveryBlcoASC_220503.json';
+
+		$.getJSON(jsonLocation, function(data){
+			deliveryJson = data;
+		});
+	}
 	
 	// 테크사별 마커
-	function addMarkersTooMuchByBlco() {
+	function addMarkersTooMuchByBlco(data) {
 		removeMarkers();
 		let beforeBlcoCode = "";
 		let j = 0;
-		var jsonLocation = './deliveryBlcoASC_220503.json';
 		
-		$.getJSON(jsonLocation, function(data){
-			$.each(data, function(I, item){
-					if(beforeBlcoCode != item.blcoCode) { 
-						beforeBlcoCode = item.blcoCode
-						j++;
-					}
-					//console.log(item.CONT_ADDR);
-					var marker = new Tmapv2.Marker({
-						 position : new Tmapv2.LatLng(item.lat, item.lon)
-						//,label: item.blemName //Marker의 라벨.
-						,icon : "./images/marker_"+ j + ".png"
-					});
-					
-					marker.setMap(map); //Marker가 표시될 Map 설정.
-					markers.push(marker);
-				});
+		$.each(data, function(I, item) {
+			if(beforeBlcoCode != item.blcoCode) { 
+				beforeBlcoCode = item.blcoCode
+				j++;
+			}
+			//console.log(item.CONT_ADDR);
+			var marker = new Tmapv2.Marker({
+				 position : new Tmapv2.LatLng(item.lat, item.lon)
+				//,label: item.blemName //Marker의 라벨.
+				,icon : "./images/marker_"+ j + ".png"
+			});
+			
+			marker.setMap(map); //Marker가 표시될 Map 설정.
+			markers.push(marker);
 		});
+	
 		
 		// 마커클러스터 등록
 		/*markerCluster = new Tmapv2.extension.MarkerCluster({
@@ -63,7 +70,7 @@
 		*/
     }
 	// 기사별 마커 
-	function addMarkersTooMuchByBlem() {
+	function addMarkersTooMuchByBlem(data) {
 		removeMarkers();
 		let beforeBLEM_CODE = "";
 		let j = 0;
@@ -103,12 +110,23 @@
 	$("#btnBlem").click(function(){
 		addMarkersTooMuchByBlem();
 	});
+
+	$("#blcoFilter").keydown(function(key){
+		let data = $.grep(deliveryJson, function(n, i){
+						return n.blcoName == $("#blcoFilter").val();
+					});
+					
+		if(key.keyCode == 13) {
+			addMarkersTooMuchByBlco(data);
+		}
+	});
 	
 </script>
 </head>
 <body onload="initTmap()"><!-- 맵 생성 실행 -->
 	<div id="map_div"></div>
 	<button class="btnBlco" name="btnBlco" id="btnBlco">테크사별보기</button>
-	<button class="btnBlem" name="btnBlem" id="btnBlem">기사별보기</button>
+	<!--<button class="btnBlem" name="btnBlem" id="btnBlem">기사별보기</button>-->
+	<input type="text" id="blcoFilter"></input>
 </body>
 </html>
