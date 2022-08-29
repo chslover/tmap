@@ -8,7 +8,10 @@
 	src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xx94c3c4efd6574beb8d43345df9202226"></script>
 <script type="text/javascript">
 	var map;
-
+	
+	// 마커들을 저장할 배열입니다.
+	var markers = [];
+	
 	// 페이지가 로딩이 된 후 호출하는 함수입니다.
 	function initTmap(){
 		// map 생성
@@ -29,9 +32,6 @@
 	
 	// 테크사별 마커
 	function addMarkersTooMuchByBlco() {
-		// 마커들을 저장할 배열입니다.
-		var markers = [];
-        
 		removeMarkers();
 		
 		var jsonLocation = './delivery_220503.json';
@@ -52,7 +52,7 @@
 		
 		// 마커클러스터 등록
 		markerCluster = new Tmapv2.extension.MarkerCluster({
-			markers: markers1, // 마커들이 담긴 배열
+			markers: markers, // 마커들이 담긴 배열
 			map: map // 지도 객체
 		});
     }
