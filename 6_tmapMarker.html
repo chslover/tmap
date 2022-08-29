@@ -21,14 +21,18 @@
 		});
 		// 지도 객체 생성 후 마커를 등록하는 함수를 수행합니다.
 		addMarkersTooMuchByBlco();
+		
+		
 	}
 	
-	// 마커들을 저장할 배열입니다.
-	var markers = [];
+	
 	
 	// 테크사별 마커
 	function addMarkersTooMuchByBlco() {
-        removeMarkers();
+		// 마커들을 저장할 배열입니다.
+		var markers = [];
+        
+		removeMarkers();
 		
 		var jsonLocation = './delivery_220503.json';
 		
@@ -44,6 +48,12 @@
 					marker.setMap(map); //Marker가 표시될 Map 설정.
 					markers.push(marker);
 				});
+		});
+		
+		// 마커클러스터 등록
+		markerCluster = new Tmapv2.extension.MarkerCluster({
+			markers: markers1, // 마커들이 담긴 배열
+			map: map // 지도 객체
 		});
     }
 	// 기사별 마커 
